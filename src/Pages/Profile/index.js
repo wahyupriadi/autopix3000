@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import { Container, Row, Col, Card, Tab, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Tab,
+  Nav,
+  ListGroup
+} from "react-bootstrap";
 import { Navbar } from "../../Components";
 import Post from "./Post";
 import Album from "./Album";
@@ -30,15 +38,25 @@ const Profile = () => {
     <React.Fragment>
       <Navbar />
       <Container>
-        <Row>
+        <Row style={{ marginTop: 32 }}>
           <Col>
             <Card>
               <Card.Body>
                 {Profile !== null ? (
                   <>
                     <Card.Title>{Profile?.name}</Card.Title>
-                    <Card.Subtitle>{Profile?.address.city}</Card.Subtitle>
+                    <Card.Subtitle>
+                      {Profile?.email} || {Profile?.website}
+                    </Card.Subtitle>
                     <Card.Text>Phone: {Profile?.phone}</Card.Text>
+                    <Card.Text>{`Address : ${Profile?.address.street + ","} ${Profile?.address.suite + ","} ${Profile?.address.city + ","} ${Profile?.address.zipcode}`}</Card.Text>
+                    <Card>
+                      <Card.Header>Company</Card.Header>
+                      <Card.Body>
+                        <Card.Title>{`${Profile?.company.name + ","} ${Profile?.company.bs}`}</Card.Title>
+                        <Card.Subtitle>{Profile?.company.catchPhrase}</Card.Subtitle>
+                      </Card.Body>
+                    </Card>
                   </>
                 ) : (
                   <Card.Text>Loading...</Card.Text>
@@ -64,10 +82,18 @@ const Profile = () => {
                 <Col sm={9}>
                   <Tab.Content>
                     <Tab.Pane eventKey="first">
-                      <Post id={Profile?.id} />
+                      {Profile !== null ? (
+                        <Post id={Profile?.id} />
+                      ) : (
+                        <p>Loading posts...</p>
+                      )}
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
-                      <Album id={Profile?.id} />
+                      {Profile !== null ? (
+                        <Album id={Profile?.id} />
+                      ) : (
+                        <p>Loading albums...</p>
+                      )}
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>
