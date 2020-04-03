@@ -10,14 +10,12 @@ const PhotoGrid = props => {
   const [photoData, setPhotoData] = useState(null);
 
   const getPhotos = async idAlbum => {
-    console.log(idAlbum);
     const result = await axios
-      .get(`https://jsonplaceholder.typicode.com/photos?albumId=${idAlbum}`)
+      .get(`http://localhost:3004/photos?albumId=${idAlbum}`)
       .then(res => {
         return res.data;
       })
       .catch(e => console.log(e));
-    console.log(result);
     return setPhotos(result);
   };
 
@@ -63,17 +61,15 @@ const PhotoGrid = props => {
       {Photos !== null ? (
         Photos?.map(item => {
           return (
-            <>
-              <Col key={item.id} md={4} style={{ marginBottom: 30 }}>
-                <Card style={{ height: "100%" }}>
-                  <Card.Img
-                    src={`${item.thumbnailUrl}`}
-                    alt=""
-                    onClick={() => handleModal("true", item)}
-                  ></Card.Img>
-                </Card>
-              </Col>
-            </>
+            <Col key={item.id} md={4} style={{ marginBottom: 30 }}>
+              <Card style={{ height: "100%" }}>
+                <Card.Img
+                  src={`${item.thumbnailUrl}`}
+                  alt=""
+                  onClick={() => handleModal("true", item)}
+                ></Card.Img>
+              </Card>
+            </Col>
           );
         })
       ) : (

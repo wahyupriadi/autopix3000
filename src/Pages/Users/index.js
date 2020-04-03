@@ -5,13 +5,18 @@ import Axios from "axios";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Navbar } from "../../Components";
 
+const currentUser = {
+  name: "account_0",
+  email: "account.0@mail.com"
+};
+
 const Users = () => {
   const [Userlist, setUserlist] = useState([]);
 
   const getUsers = async () => {
-    const result = await Axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    ).then(res => setUserlist(res.data));
+    const result = await Axios.get("http://localhost:3004/users").then(res =>
+      setUserlist(res.data)
+    );
     return result;
   };
 
@@ -32,12 +37,17 @@ const Users = () => {
     <React.Fragment>
       <Navbar />
       <Container>
+        <Row className="mt-4">
+          <Col>
+            <h3>User List</h3>
+          </Col>
+        </Row>
         <Row>
           <Col>
-            <Suspense fallback={loadingImg}>
-              {Userlist.map(item => {
+            {Userlist !== null ? (
+              Userlist?.map(item => {
                 return (
-                  <Card key={item.id} style={{ marginBottom: 8 }}>
+                  <Card key={item.id} className="mt-2">
                     <Link key={item.id} to={`/profile/${item.id}`}>
                       <Card.Body>
                         <Card.Title>{item.name}</Card.Title>
@@ -46,8 +56,14 @@ const Users = () => {
                     </Link>
                   </Card>
                 );
-              })}
-            </Suspense>
+              })
+            ) : (
+              <Card>
+                <Card.Body>
+                  <Card.Title>loading users....</Card.Title>
+                </Card.Body>
+              </Card>
+            )}
           </Col>
         </Row>
       </Container>
@@ -55,4 +71,5 @@ const Users = () => {
   );
 };
 
+export { currentUser };
 export default Users;

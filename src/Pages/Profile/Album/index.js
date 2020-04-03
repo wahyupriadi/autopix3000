@@ -12,7 +12,7 @@ const Album = props => {
 
   const getAlbums = async idUser => {
     const result = await axios
-      .get(`https://jsonplaceholder.typicode.com/albums?userId=${idUser}`)
+      .get(`http://localhost:3004/albums?userId=${idUser}`)
       .then(res => {
         return res.data;
       })
@@ -24,7 +24,6 @@ const Album = props => {
     if (isActive === true) {
       setGridActive(true);
       setIdAlbum(id);
-      console.log(id);
     } else {
       setGridActive(false);
       setIdAlbum(null);

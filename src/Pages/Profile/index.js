@@ -9,7 +9,6 @@ import {
   Card,
   Tab,
   Nav,
-  ListGroup
 } from "react-bootstrap";
 import { Navbar } from "../../Components";
 import Post from "./Post";
@@ -22,7 +21,7 @@ const Profile = () => {
 
   const getProfile = async idUser => {
     const result = await axios
-      .get(`https://jsonplaceholder.typicode.com/users/${idUser}`)
+      .get(`http://localhost:3004/users/${idUser}`)
       .then(res => {
         return res.data;
       })
